@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { createTodo } from "./actions";
+import { addTodoRequest } from "./thunks";
 import "./NewTodoForm.css";
 
 const NewTodoForm = ({ todos, onCreatePressed }) => {
@@ -19,7 +19,7 @@ const NewTodoForm = ({ todos, onCreatePressed }) => {
           const isDuplicateText = todos.some(
             (todo) => todo.text === inputValue
           );
-          if (!isDuplicateText) {
+          if (!isDuplicateText && inputValue) {
             onCreatePressed(inputValue);
             setInputValue("");
           }
@@ -36,7 +36,7 @@ const mapStateToProps = (state) => ({
   todos: state.todos,
 });
 const mapDispatchToProps = (dispatch) => ({
-  onCreatePressed: (text) => dispatch(createTodo(text)),
+  onCreatePressed: (text) => dispatch(addTodoRequest(text)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewTodoForm);

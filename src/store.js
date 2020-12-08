@@ -1,11 +1,10 @@
-import { createStore, combineReducers } from "redux";
-import { todos } from "./todos/reducers";
-const reducers = { todos };
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { todos, isLoading } from "./todos/reducers";
+import thunk from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
+const reducers = { todos, isLoading };
 
 const rootReducer = combineReducers(reducers);
 
 export const configureStore = () =>
-  createStore(
-    rootReducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  );
+  createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
